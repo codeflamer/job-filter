@@ -1,9 +1,12 @@
 import React from 'react'
+import BodyContent from './components/BodyContent'
+import Header from './components/Header'
 
 const App = () => {
   return (
     <div>
-      Hello this is the Job App
+      <Header/>
+      <BodyContent/>
     </div>
   )
 }
