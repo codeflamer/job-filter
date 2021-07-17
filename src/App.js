@@ -13,7 +13,7 @@ const App = () => {
       await axios.get('data.json')
       .then((response)=> {
         // handle success
-        console.log(response.data);
+        // console.log(response.data);
         dispatch(setJobdata(response.data));
       })
       .catch((error)=> {
