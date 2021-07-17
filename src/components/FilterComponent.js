@@ -1,24 +1,49 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import {  callFilter, setFilter,setFilterParam,callFilterParam,setFilteredData } from '../features/dataJob/jobSlice';
+
 
 const FilterComponent = () => {
-    return (
-        <FilterContainer>
-            <FilterContent>
-                <ContentLeft>
-                    <ul>
-                        <li>Frontend <img src='/images/icon-remove.svg' /></li>
-                        <li>CSS <img src='/images/icon-remove.svg' /></li>
-                        <li>JavaScript <img src='/images/icon-remove.svg' /></li>
-                    </ul>
-                </ContentLeft>
-                <ContentRight>
-                    <a href='#'>Clear</a>
-                </ContentRight>
-            </FilterContent>
-        </FilterContainer>
-    )
+    const dispatch = useDispatch();
+    const filterState = useSelector(callFilter);
+    const filterParams = useSelector(callFilterParam);
+
+    const clearFilter =()=>{
+        dispatch(setFilter(false));
+        dispatch(setFilterParam([]));
+        dispatch(setFilteredData(null));
+    }
+    //today when i wake up,By God's Grace
+    const removeParam = (removeparam)=>{
+        const value = filterParams.filter((param)=> param !== removeparam);
+        dispatch(setFilterParam(value))
+    }
+
+    if(filterState && filterParams.length > 0){
+        return (
+            <FilterContainer>
+                <FilterContent>
+                    <ContentLeft>
+                        <ul>
+                            {filterParams.map((param)=>(
+                                <li key={param}>{param} <img src='/images/icon-remove.svg' onClick={()=>removeParam(param)} /></li>
+                            ))}
+                        </ul>
+                    </ContentLeft>
+                    <ContentRight>
+                        <a href='#' onClick={()=>clearFilter()}>Clear</a>
+                    </ContentRight>
+                </FilterContent>
+            </FilterContainer>
+        )
+    }
+    else{
+        return(
+            <h5></h5>
+        )
+    }
 }
 
 const FilterContainer = styled.div`
