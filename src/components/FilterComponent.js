@@ -2,23 +2,31 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import {  callFilter, setFilter,setFilterParam,callFilterParam,setFilteredData } from '../features/dataJob/jobSlice';
+import {  callFilter, setFilter,setFilterParam,callFilterParam,setFilteredData,callJobData } from '../features/dataJob/jobSlice';
 
 
 const FilterComponent = () => {
     const dispatch = useDispatch();
     const filterState = useSelector(callFilter);
     const filterParams = useSelector(callFilterParam);
+    const jobData = useSelector(callJobData);
 
     const clearFilter =()=>{
         dispatch(setFilter(false));
         dispatch(setFilterParam([]));
         dispatch(setFilteredData(null));
     }
-    //today when i wake up,By God's Grace
+  
     const removeParam = (removeparam)=>{
         const value = filterParams.filter((param)=> param !== removeparam);
-        dispatch(setFilterParam(value))
+        dispatch(setFilterParam(value));
+        const check = jobData.filter((job)=> value.some(i => job.languages.includes(i)));
+        dispatch(setFilteredData(check));
+        if (value.length <=0){
+            dispatch(setFilter(false));
+            dispatch(setFilterParam([]));
+            dispatch(setFilteredData(null));
+        }
     }
 
     if(filterState && filterParams.length > 0){

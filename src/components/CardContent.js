@@ -16,6 +16,7 @@ const CardContent = ({company,position,location,logo,contract,postedAt,languages
         if(filteredjobData){
             const value = filteredjobData.filter((job)=>job.languages.includes(lang));
             dispatch(setFilteredData(value));
+            // filter((job)=>parameters.every(i => job.languages.includes(i)));
         }
         else{
             const value = jobData.filter((job)=>job.languages.includes(lang));
